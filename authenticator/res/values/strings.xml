@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="lib_name">authenticator</string>
+	<string name="lib_version">0.0.1-SNAPSHOT</string>
+
+</resources>
