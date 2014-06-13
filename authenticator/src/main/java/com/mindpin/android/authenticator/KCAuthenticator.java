@@ -104,19 +104,26 @@ public class KCAuthenticator extends Authenticator {
         SignParams signParams;
 
         @Override
-        protected User doInBackground(SignParams... signParams) {
-            this.signParams = signParams[0];
-            HttpRequest request = post(get_sign_in_url()).
-                    part(get_login_param(), this.signParams.login).part(get_password_param(), this.signParams.password);
-            if (request.ok()) {
-                User user = on_auth_success_build_user(request.body());
-                save(user);
-                return user;
-            } else {
-                //throw error?
+        protected User doInBackground(SignParams... signParamses) {
+            signParams = signParamses[0];
+            try {
+                HttpRequest request = post(get_sign_in_url()).
+                        part(get_login_param(), signParams.login).part(get_password_param(), signParams.password);
+                if (request.ok()) {
+                    User user = on_auth_success_build_user(request.body());
+                    save(user);
+                    return user;
+                } else {
+                    //throw error?
+                }
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
             }
             return null;
         }
+
+
 
         @Override
         protected void onPostExecute(User user) {

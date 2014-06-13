@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import com.mindpin.android.authenticator.AuthSuccessCallback;
 import com.mindpin.android.authenticator.KCAuthenticator;
 import com.mindpin.android.authenticator.R;
@@ -39,7 +40,13 @@ public class AuthenticatorSignIn extends Activity {
                         new AuthSuccessCallback() {
                             @Override
                             public void callback(User user) {
-                                to_signout();
+                                if(user == null) {
+                                    Toast.makeText(AuthenticatorSignIn.this, "登录失败!", Toast.LENGTH_LONG).show();
+                                }
+                                else
+                                {
+                                    to_signout();
+                                }
                             }
                         });
             }
