@@ -1,4 +1,4 @@
-package com.mindpin.android.authenticator;
+package com.mindpin.android.authenticator.core;
 
 import static com.github.kevinsawicki.http.HttpRequest.*;
 
@@ -8,6 +8,9 @@ import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mindpin.android.authenticator.AuthSuccessCallback;
+import com.mindpin.android.authenticator.Authenticator;
+import com.mindpin.android.authenticator.IUser;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -62,7 +65,8 @@ public class KCAuthenticator extends Authenticator {
     }
 
     @Override
-    public void sign_out(User user) {
+    public void sign_out(IUser iuser) {
+        User user = (User)iuser;
         Log.e(TAG, "before sign_out users.size():" + users.size());
         if (users.contains(user)) {
             users.remove(user);

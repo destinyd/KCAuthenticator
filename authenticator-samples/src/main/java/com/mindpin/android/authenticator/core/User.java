@@ -1,13 +1,11 @@
-package com.mindpin.android.authenticator;
+package com.mindpin.android.authenticator.core;
 
-import android.util.Log;
-import com.google.gson.Gson;
-import com.mindpin.android.authenticator.common.SDCard;
+import com.mindpin.android.authenticator.IUser;
 
 /**
  * Created by dd on 14-6-10.
  */
-public class User {
+public class User implements IUser {
     private static final String TAG = "User";
     // 下面几个字段根据具体业务逻辑确定
     public String id;
@@ -23,5 +21,10 @@ public class User {
         }catch (Exception ex) {
             return super.equals(o);
         }
+    }
+
+    @Override
+    public void save() {
+
     }
 }

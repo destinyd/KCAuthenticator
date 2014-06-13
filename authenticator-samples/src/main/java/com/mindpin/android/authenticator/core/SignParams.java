@@ -1,4 +1,6 @@
-package com.mindpin.android.authenticator;
+package com.mindpin.android.authenticator.core;
+
+import com.mindpin.android.authenticator.AuthSuccessCallback;
 
 /**
  * Created by dd on 14-6-12.

@@ -23,7 +23,7 @@ public abstract class Authenticator {
     // 把 response 转换成 具体逻辑中的 IUser 对象
     // 并把 IUser 对象返回
     // 不需要运行 IUser 的 save
-    public abstract User on_auth_success_build_user(String response);
+    public abstract IUser on_auth_success_build_user(String response);
 
 
     // 开发组件时，需要实现这个方法的逻辑
@@ -35,9 +35,11 @@ public abstract class Authenticator {
     public abstract void sign_in(String login, String password, AuthSuccessCallback callback);
 
     // 登出
-    public abstract void sign_out(User user);
+    public abstract void sign_out(IUser user);
 
 //    // 开发组件时，需要实现这个方法的逻辑
 //    // 获取 preference 中存储的 user_id( sqlite 数据库中 iuser 表的 主键)
-//    public abstract int current_user_id();
+    public static int current_user_id(){
+        return 0;
+    };
 }

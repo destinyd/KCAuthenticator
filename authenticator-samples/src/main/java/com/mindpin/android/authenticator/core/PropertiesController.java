@@ -1,4 +1,4 @@
-package com.mindpin.android.authenticator;
+package com.mindpin.android.authenticator.core;
 
 import android.content.Context;
 

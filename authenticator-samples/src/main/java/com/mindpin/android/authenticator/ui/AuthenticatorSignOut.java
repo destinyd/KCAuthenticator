@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.mindpin.android.authenticator.KCAuthenticator;
+import com.mindpin.android.authenticator.core.KCAuthenticator;
 import com.mindpin.android.authenticator.R;
-import com.mindpin.android.authenticator.User;
+import com.mindpin.android.authenticator.core.User;
 
 /**
  * Created by dd on 14-6-12.
