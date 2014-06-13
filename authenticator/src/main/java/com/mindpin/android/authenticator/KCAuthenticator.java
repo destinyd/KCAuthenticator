@@ -3,6 +3,7 @@ package com.mindpin.android.authenticator;
 import static com.github.kevinsawicki.http.HttpRequest.*;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
@@ -56,14 +57,8 @@ public class KCAuthenticator extends Authenticator {
 
     @Override
     public void sign_in(String login, String password, AuthSuccessCallback callback) {
-        HttpRequest request = post(get_sign_in_url()).part(get_login_param(), login).part(get_password_param(), password);
-        if (request.ok()) {
-            User user = on_auth_success_build_user(request.body());
-            save(user);
-            callback.callback(user);
-        } else {
-            //throw error?
-        }
+        SignParams signParams = new SignParams(login, password, callback);
+        new DownloadTask().execute(signParams);
     }
 
     @Override
@@ -103,5 +98,29 @@ public class KCAuthenticator extends Authenticator {
 
     public User current_user() {
         return find(current_user_id());
+    }
+
+    private class DownloadTask extends AsyncTask<SignParams, Long, User> {
+        SignParams signParams;
+
+        @Override
+        protected User doInBackground(SignParams... signParams) {
+            this.signParams = signParams[0];
+            HttpRequest request = post(get_sign_in_url()).
+                    part(get_login_param(), this.signParams.login).part(get_password_param(), this.signParams.password);
+            if (request.ok()) {
+                User user = on_auth_success_build_user(request.body());
+                save(user);
+                return user;
+            } else {
+                //throw error?
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            signParams.authSuccessCallback.callback(user);
+        }
     }
 }
