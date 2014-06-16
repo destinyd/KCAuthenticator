@@ -16,7 +16,8 @@
             android:allowBackup="true"
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:name="com.activeandroid.app.Application">
 
         <activity
                 android:name=".ui.MainActivity"
@@ -28,6 +29,9 @@
         </activity>
         <activity android:name=".ui.AuthenticatorSignIn"/>
         <activity android:name=".ui.AuthenticatorSignOut"/>
+
+        <!--<meta-data android:name="AA_SERIALIZERS"-->
+                   <!--android:value="com.activeandroid.serializer.UUIDSerializer,com.activeandroid.serializer.CalendarSerializer" />-->
 
     </application>
 

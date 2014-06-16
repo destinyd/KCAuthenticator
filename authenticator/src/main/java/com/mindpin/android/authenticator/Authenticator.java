@@ -39,7 +39,7 @@ public abstract class Authenticator {
 
 //    // 开发组件时，需要实现这个方法的逻辑
 //    // 获取 preference 中存储的 user_id( sqlite 数据库中 iuser 表的 主键)
-    public static int current_user_id(){
-        return 0;
-    };
+//    public static int current_user_id(){
+//        return 0;
+//    };
 }

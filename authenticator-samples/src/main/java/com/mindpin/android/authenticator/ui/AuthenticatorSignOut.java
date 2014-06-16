@@ -3,6 +3,7 @@ package com.mindpin.android.authenticator.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,7 +15,8 @@ import com.mindpin.android.authenticator.core.User;
  * Created by dd on 14-6-12.
  */
 public class AuthenticatorSignOut extends Activity {
-    KCAuthenticator KCAuthenticator;
+    private static final String TAG = "AuthenticatorSignOut";
+    KCAuthenticator kcAuthenticator;
     User current_user;
     TextView id, login, email, name;
     Button btn_signout;
@@ -23,8 +25,8 @@ public class AuthenticatorSignOut extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.sign_out);
-        KCAuthenticator = new KCAuthenticator(this);
-        current_user = KCAuthenticator.current_user();
+        kcAuthenticator = new KCAuthenticator();
+        current_user = User.current();
         if(current_user == null){
             startActivity(new Intent(this, AuthenticatorSignIn.class));
             finish();
@@ -36,14 +38,14 @@ public class AuthenticatorSignOut extends Activity {
             name = (TextView) findViewById(R.id.tv_name);
             btn_signout = (Button) findViewById(R.id.btn_signout);
 
-            id.setText(current_user.id);
+            id.setText(current_user.server_user_id);
             login.setText(current_user.login);
             email.setText(current_user.email);
             name.setText(current_user.name);
             btn_signout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    KCAuthenticator.sign_out(current_user);
+                    kcAuthenticator.sign_out(current_user);
                     finish();
                 }
             });

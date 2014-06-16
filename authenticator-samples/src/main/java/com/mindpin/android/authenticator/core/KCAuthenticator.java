@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mindpin.android.authenticator.AuthSuccessCallback;
 import com.mindpin.android.authenticator.Authenticator;
 import com.mindpin.android.authenticator.IUser;
+import com.sun.org.apache.bcel.internal.generic.IUSHR;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,24 +24,6 @@ import java.util.ArrayList;
 public class KCAuthenticator extends Authenticator {
     private static final String TAG = "MyAuthenticator";
 
-    ArrayList<User> users;
-    Type listType;
-    Context context;
-
-    public KCAuthenticator(Context context) {
-        this.context = context;
-        listType = new TypeToken<ArrayList<User>>() {
-        }.getType();
-        try {
-            users = PropertiesController.readConfiguration(context, listType);
-        } catch (FileNotFoundException e) {
-            users = new ArrayList<User>();
-        }
-    }
-
-    //    public String get_sign_in_url() {
-//        return "http://4ye.mindpin.com/account/sign_in";
-//    }
     public String get_sign_in_url() {
         return "http://kc-alpha.4ye.me/account/sign_in.json";
     }
@@ -67,41 +50,7 @@ public class KCAuthenticator extends Authenticator {
     @Override
     public void sign_out(IUser iuser) {
         User user = (User)iuser;
-        Log.e(TAG, "before sign_out users.size():" + users.size());
-        if (users.contains(user)) {
-            users.remove(user);
-            Log.e(TAG, "after sign_out users.size():" + users.size());
-            save_to_file();
-        }
-    }
-
-    private void save(User user) {
-        sign_out(user);
-        users.add(0, user);
-        save_to_file();
-    }
-
-    private void save_to_file() {
-        try {
-            PropertiesController.writeConfiguration(context, users);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public User find(int index) {
-        if (index < users.size())
-            return users.get(index);
-        else
-            return null;
-    }
-
-    public static int current_user_id() {
-        return 0;
-    }
-
-    public User current_user() {
-        return find(current_user_id());
+        user.delete();
     }
 
     private class DownloadTask extends AsyncTask<SignParams, Long, User> {
@@ -115,7 +64,7 @@ public class KCAuthenticator extends Authenticator {
                         part(get_login_param(), signParams.login).part(get_password_param(), signParams.password);
                 if (request.ok()) {
                     User user = on_auth_success_build_user(request.body());
-                    save(user);
+                    user.save();
                     return user;
                 } else {
                     //throw error?

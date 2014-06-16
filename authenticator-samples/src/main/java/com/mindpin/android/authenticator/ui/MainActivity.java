@@ -46,9 +46,6 @@ public class MainActivity extends ListActivity {
         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         addItem(data, "Sign In", AuthenticatorSignIn.class);
         addItem(data, "Sign Out", AuthenticatorSignOut.class);
-//        addItem(data, "ButtonViews", FlipButtonViewActivity.class);
-//        addItem(data, "XML Configuration", FlipXmlActivity.class);
-//        addItem(data, "Complex", FlipComplexActivity.class);
 
         return data;
     }

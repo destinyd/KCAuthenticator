@@ -27,8 +27,8 @@ public class AuthenticatorSignIn extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.sign_in);
-        kcAuthenticator = new KCAuthenticator(this);
-        current_user = kcAuthenticator.current_user();
+        kcAuthenticator = new KCAuthenticator();
+        current_user = User.current();
         et_login = (EditText) findViewById(R.id.et_login);
         et_password = (EditText) findViewById(R.id.et_password);
         btn_signin = (Button) findViewById(R.id.btn_signin);
