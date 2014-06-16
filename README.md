@@ -21,3 +21,33 @@ knowledge camp Android登录验证组件
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 ```
+
+## 注意事项
+### 表名
+```
+@Table(name = "Users")
+public class User extends IUser {
+}
+```
+**@Table(name = "Users")**
+为设置表名称
+
+### 属性
+```
+@SerializedName("id")
+@Column(name = "Server_user_id")
+public String server_user_id;
+```
+**@SerializedName("id")**
+为对应服务器返回键值
+
+```@Column(name = "Server_user_id")```
+为Sqlite列名（不能为Id）
+```public String server_user_id;```
+**server_user_id** 为自定义属性名
+
+### 继承
+extends IUser必须重新定义find()、current()，否则使用时会报错
+
+### 其他
+**sign_in()** 、 **sign_out()**可能会使用到HttpRequest，请使用线程，否则4.0+会报错，具体请参考samples
