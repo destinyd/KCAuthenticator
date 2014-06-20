@@ -1,4 +1,4 @@
-package com.mindpin.android.authenticator.core;
+package com.mindpin.android.authenticator;
 
 import com.mindpin.android.authenticator.AuthSuccessCallback;
 

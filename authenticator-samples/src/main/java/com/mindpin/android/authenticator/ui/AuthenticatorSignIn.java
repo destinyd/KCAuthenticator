@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.mindpin.android.authenticator.AuthSuccessCallback;
 import com.mindpin.android.authenticator.IUser;
-import com.mindpin.android.authenticator.core.KCAuthenticator;
+import com.mindpin.android.authenticator.core.MyAuthenticator;
 import com.mindpin.android.authenticator.R;
 import com.mindpin.android.authenticator.core.User;
 
@@ -17,7 +17,7 @@ import com.mindpin.android.authenticator.core.User;
  * Created by dd on 14-6-12.
  */
 public class AuthenticatorSignIn extends Activity {
-    KCAuthenticator kcAuthenticator;
+    MyAuthenticator myAuthenticator;
     User current_user;
     EditText et_login, et_password;
     Button btn_signin;
@@ -27,7 +27,7 @@ public class AuthenticatorSignIn extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.sign_in);
-        kcAuthenticator = new KCAuthenticator();
+        myAuthenticator = new MyAuthenticator();
         current_user = User.current();
         et_login = (EditText) findViewById(R.id.et_login);
         et_password = (EditText) findViewById(R.id.et_password);
@@ -35,7 +35,7 @@ public class AuthenticatorSignIn extends Activity {
         btn_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                kcAuthenticator.sign_in(
+                myAuthenticator.sign_in(
                         et_login.getText().toString(),
                         et_password.getText().toString(),
                         new AuthSuccessCallback() {
