@@ -33,7 +33,6 @@ public class MyAuthenticator extends Authenticator<User> {
         return new Gson().fromJson(response, User.class);
     }
 
-    @Override
     public String get_user_info_url() {
         return "http://kc-alpha.4ye.me/api/nets";
     }

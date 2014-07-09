@@ -40,12 +40,6 @@ public abstract class Authenticator<M extends IUser> {
     // 不需要运行 IUser 的 save
     public abstract M on_auth_success_build_user(String response);
 
-
-    // 使用组件时，需要继承 Authenticator 并实现这个方法
-    // 获取用户信息的 url
-    public abstract String get_user_info_url();
-
-
     // 开发组件时，需要实现这个方法的逻辑
     // 根据 get_sign_in_url get_login_param get_password_param 三个方法返回的内容发起登录验证请求
     // 登录验证成功并把信息保存到 sqlite 和
