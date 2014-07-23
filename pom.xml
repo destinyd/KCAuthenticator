@@ -50,6 +50,25 @@
                 <!--<artifactId>compatibility-v4</artifactId>-->
                 <!--<version>${compatibility-v4.version}</version>-->
             <!--</dependency>-->
+
+            <dependency>
+                <groupId>com.github.kevinsawicki</groupId>
+                <artifactId>http-request</artifactId>
+                <version>5.6</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+                <type>jar</type>
+            </dependency>
+
+            <dependency>
+                <groupId>com.activeandroid</groupId>
+                <artifactId>activeandroid</artifactId>
+                <version>3.1-SNAPSHOT</version>
+            </dependency>
 		</dependencies>
 
 	</dependencyManagement>

@@ -3,9 +3,22 @@ Android KCAuthenticator
 knowledge camp Android登录验证组件
 
 
-##如何引用此组件：
-已经独立成maven项目，mvn install之后可以在项目maven添加以下依赖引用：
+## 如何引用此组件：
+### 首先要安装ActiveAndroid
+```
+git clone https://github.com/pardom/ActiveAndroid
+cd ActiveAndroid
+mvn clean install -Dmaven.test.skip=true
+```
 
+### 安装KCAuthenticator
+```
+git clone https://github.com/mindpin/KCAuthenticator
+cd KCAuthenticator
+mvn clean install
+```
+
+### pom.xml添加以下依赖引用：
 ```
 <dependency>
   <groupId>com.github.destinyd</groupId>

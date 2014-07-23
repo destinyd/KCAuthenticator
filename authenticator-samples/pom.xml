@@ -42,6 +42,10 @@
         <!--</dependency>-->
 
         <dependency>
+            <groupId>com.activeandroid</groupId>
+            <artifactId>activeandroid</artifactId>
+        </dependency>
+        <dependency>
             <groupId>${parent.groupId}</groupId>
             <artifactId>authenticator</artifactId>
             <type>apklib</type>
