@@ -3,8 +3,7 @@ package com.mindpin.android.authenticator.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -37,7 +36,10 @@ public class AuthenticatorRequest extends Activity {
             tv_request = (TextView) findViewById(R.id.tv_request);
 
             MyAuthenticator auth1 = new MyAuthenticator();
-            HttpRequest request = HttpRequest.get(auth1.get_user_info_url());
+            HttpRequest request = HttpRequest.get(auth1.get_user_info_url())
+                    .connectTimeout(15000) //15s
+                    .readTimeout(15000) //15s
+                    .authorization("");
             auth1.request(request, new RequestCallback() {
                 public void is_200(RequestResult request) {
                     tv_request.setText(request.body);
@@ -47,6 +49,12 @@ public class AuthenticatorRequest extends Activity {
                 public void not_200(RequestResult request) {
                     tv_request.setText("not_200");
                     Toast.makeText(AuthenticatorRequest.this, "not 200", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void error() {
+                    tv_request.setText("error");
+                    Toast.makeText(AuthenticatorRequest.this, "error", Toast.LENGTH_LONG).show();
                 }
             });
 

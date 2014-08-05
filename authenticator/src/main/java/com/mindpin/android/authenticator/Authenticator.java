@@ -1,14 +1,10 @@
 package com.mindpin.android.authenticator;
 
 import android.os.AsyncTask;
-import android.text.TextUtils;
 import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.protocol.HTTP;
 
 import static com.github.kevinsawicki.http.HttpRequest.post;
 
@@ -46,7 +42,7 @@ public abstract class Authenticator<M extends IUser> {
     // 当前登陆 user_id ( sqlite 数据库中 iuser 表的 主键)
     // 保存到 preference 后，会运行 AuthSuccessCallback
     // 对象的 callback 方法
-    public void sign_in(String login, String password, AuthSuccessCallback callback) {
+    public void sign_in(String login, String password, AuthCallback callback) {
         SignParams signParams = new SignParams(login, password, callback);
         new SignInTask().execute(signParams);
     }
@@ -59,13 +55,18 @@ public abstract class Authenticator<M extends IUser> {
 
     private class SignInTask extends AsyncTask<SignParams, Long, M> {
         SignParams signParams;
+        int code;
+        boolean loginFailure = false;
 
         @Override
         protected M doInBackground(SignParams... signParamses) {
             signParams = signParamses[0];
             try {
-                HttpRequest request = post(get_sign_in_url()).
-                        part(get_login_param(), signParams.login).part(get_password_param(), signParams.password);
+                HttpRequest request = post(get_sign_in_url())
+                        .connectTimeout(15000) //15s
+                        .readTimeout(15000) //15s
+                        .part(get_login_param(), signParams.login)
+                        .part(get_password_param(), signParams.password);
                 if (request.ok()) {
                     M user = on_auth_success_build_user(request.body());
                     user.strCookies = request.header("Set-Cookie");
@@ -74,18 +75,28 @@ public abstract class Authenticator<M extends IUser> {
                     user.save();
                     return user;
                 } else {
-                    //throw error?
+                    if (request.code() == 401) {
+                        loginFailure = true;
+                    }
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (HttpRequest.HttpRequestException ex) {
+                // for 2.2 登录失败
+                if (ex.getMessage().equals("java.io.IOException: Received authentication challenge is null"))
+                    loginFailure = true;
             }
             return null;
         }
 
-
         @Override
         protected void onPostExecute(M user) {
-            signParams.authSuccessCallback.callback(user);
+            if (user != null)
+                signParams.authCallback.success(user);
+            else {
+                if (loginFailure)
+                    signParams.authCallback.failure();
+                else
+                    signParams.authCallback.error();
+            }
         }
     }
 
@@ -102,37 +113,50 @@ public abstract class Authenticator<M extends IUser> {
         new RequestTask().execute(requestParams);
     }
 
-
     private class RequestTask extends AsyncTask<RequestParams, Long, Boolean> {
         RequestCallback requestCallback;
         HttpRequest request;
         RequestResult requestResult;
+
         @Override
         protected Boolean doInBackground(RequestParams... requestParams) {
-            if(requestParams.length > 0) {
-                RequestParams requestParam = requestParams[0];
-                requestCallback = requestParam.requestCallback;
-                request = requestParam.httpRequest;
-                if(request.ok()) {
-                    requestResult = new RequestResult(request.code(), request.body(), request.headers());
-                    return true;
-                }
-                else{
-                    requestResult = new RequestResult(request.code(), "", request.headers());
-                    return false;
+            requestResult = null;
+            if (requestParams.length > 0) {
+                try {
+                    RequestParams requestParam = requestParams[0];
+                    requestCallback = requestParam.requestCallback;
+                    request = requestParam.httpRequest;
+                    if (request.ok()) {
+                        requestResult = new RequestResult(request.code(), request.body(), request.headers());
+                        return true;
+                    } else {
+                        requestResult = new RequestResult(request.code(), request.body(), request.headers());
+                        return false;
+                    }
+                } catch (Exception ex) {
+                    // 2.2 login failure
+                    if (ex.getMessage() == null) {
+                        requestResult = new RequestResult(401, "", null);
+                    }
+                    // 其他错误 返回
+                    else {
+                    }
                 }
             }
-            requestResult = null;
             return false;
         }
 
 
         @Override
         protected void onPostExecute(Boolean is_200) {
-            if (is_200) {
-                requestCallback.is_200(requestResult);
+            if (requestResult != null) {
+                if (is_200) {
+                    requestCallback.is_200(requestResult);
+                } else {
+                    requestCallback.not_200(requestResult);
+                }
             } else {
-                requestCallback.not_200(requestResult);
+                requestCallback.error();
             }
         }
     }

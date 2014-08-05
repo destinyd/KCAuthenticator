@@ -11,4 +11,7 @@ public interface RequestCallback {
 
     // 请求不是200时的回调，该方法运行在UI线程
     public void not_200(RequestResult request);
+
+    // 服务器连接出错时的回调，该方法运行在UI线程
+    public void error();
 }

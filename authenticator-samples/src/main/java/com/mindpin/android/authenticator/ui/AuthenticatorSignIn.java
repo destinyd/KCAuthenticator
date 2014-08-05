@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.mindpin.android.authenticator.AuthSuccessCallback;
+import com.mindpin.android.authenticator.AuthCallback;
 import com.mindpin.android.authenticator.IUser;
 import com.mindpin.android.authenticator.core.MyAuthenticator;
 import com.mindpin.android.authenticator.R;
@@ -38,14 +38,20 @@ public class AuthenticatorSignIn extends Activity {
                 myAuthenticator.sign_in(
                         et_login.getText().toString(),
                         et_password.getText().toString(),
-                        new AuthSuccessCallback() {
+                        new AuthCallback() {
                             @Override
-                            public void callback(IUser user) {
-                                if (user == null) {
-                                    Toast.makeText(AuthenticatorSignIn.this, "登录失败!", Toast.LENGTH_LONG).show();
-                                } else {
-                                    to_signout();
-                                }
+                            public void success(IUser user) {
+                                to_signout();
+                            }
+
+                            @Override
+                            public void failure() {
+                                Toast.makeText(AuthenticatorSignIn.this, "用户和密码不正确", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void error() {
+                                Toast.makeText(AuthenticatorSignIn.this, "连接服务器出错", Toast.LENGTH_LONG).show();
                             }
                         });
             }
