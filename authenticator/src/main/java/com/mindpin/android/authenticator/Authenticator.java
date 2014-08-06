@@ -3,8 +3,6 @@ package com.mindpin.android.authenticator;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.protocol.HTTP;
 
 import java.util.HashMap;
 import java.util.List;
@@ -83,8 +81,9 @@ public abstract class Authenticator<M extends IUser> {
                     }
                 }
             } catch (HttpRequest.HttpRequestException ex) {
-                // for 2.2 登录失败
-                if (ex.getMessage().equals("java.io.IOException: Received authentication challenge is null"))
+                // for 2.2 登录失败: "java.io.IOException: Received authentication challenge is null"
+                // 4.1 4.2登录失败未加WWW-Authentication: "java.io.IOException: No authentication challenges found"
+                if(ex.getMessage() != null && ex.getMessage().indexOf("authentication challenge") >= 0)
                     loginFailure = true;
             }
             return null;
@@ -143,6 +142,9 @@ public abstract class Authenticator<M extends IUser> {
                     }
                     // 其他错误 返回
                     else {
+                        // 4.1 4.2登录失败未加WWW-Authentication: "java.io.IOException: No authentication challenges found"
+                        if(ex.getMessage() != null && ex.getMessage().indexOf("authentication challenge") >= 0)
+                            requestResult = new RequestResult(401, "", new HashMap<String, List<String>>());
                     }
                 }
             }
