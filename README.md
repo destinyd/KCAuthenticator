@@ -23,7 +23,7 @@ mvn clean install
 <dependency>
   <groupId>com.github.destinyd</groupId>
   <artifactId>authenticator</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>(last version)</version>
   <type>apklib</type>
 </dependency>
 ```
