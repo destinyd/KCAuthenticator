@@ -9,11 +9,36 @@
 	<version>0.0.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>authenticator - Parent</name>
+    <url>https://github.com/mindpin/KCAuthenticator</url>
+    <inceptionYear>2014</inceptionYear>
 
 	<modules>
         <module>authenticator</module>
 		<module>authenticator-samples</module>
 	</modules>
+
+    <scm>
+        <url>http://github.com/mindpin/KCAuthenticator</url>
+        <connection>scm:git:git@github.com:mindpin/KCAuthenticator.git</connection>
+        <developerConnection>scm:git:git@github.com:mindpin/KCAuthenticator.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Levi Chan</name>
+            <email>destinyd.war@gmail.com</email>
+            <id>destinyd</id>
+            <url>https://github.com/destinyd</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>DestinyD</name>
+        <url>https://github.com/destinyd</url>
+    </organization>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
