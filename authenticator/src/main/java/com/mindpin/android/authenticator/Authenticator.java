@@ -6,6 +6,9 @@ import com.github.kevinsawicki.http.HttpRequest;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.protocol.HTTP;
 
+import java.util.HashMap;
+import java.util.List;
+
 import static com.github.kevinsawicki.http.HttpRequest.post;
 
 /**
@@ -136,7 +139,7 @@ public abstract class Authenticator<M extends IUser> {
                 } catch (Exception ex) {
                     // 2.2 login failure
                     if (ex.getMessage() == null) {
-                        requestResult = new RequestResult(401, "", null);
+                        requestResult = new RequestResult(401, "", new HashMap<String, List<String>>());
                     }
                     // 其他错误 返回
                     else {
