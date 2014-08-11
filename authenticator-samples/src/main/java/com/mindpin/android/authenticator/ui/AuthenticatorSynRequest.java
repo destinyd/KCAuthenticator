@@ -73,8 +73,8 @@ public class AuthenticatorSynRequest extends Activity {
                 } else {
                     tv_request.setText("not_200");
                     Toast.makeText(AuthenticatorSynRequest.this, "not 200", Toast.LENGTH_LONG).show();
-                    Log.e(TAG, "requestResult.status:" + requestResult.status);
-                    Log.e(TAG, "requestResult.body:" + requestResult.body);
+//                    Log.e(TAG, "requestResult.status:" + requestResult.status);
+//                    Log.e(TAG, "requestResult.body:" + requestResult.body);
                 }
             }
         }
