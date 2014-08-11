@@ -30,6 +30,7 @@
         <activity android:name=".ui.AuthenticatorSignIn"/>
         <activity android:name=".ui.AuthenticatorSignOut"/>
         <activity android:name=".ui.AuthenticatorRequest"/>
+        <activity android:name=".ui.AuthenticatorSynRequest"/>
 
         <!--<meta-data android:name="AA_SERIALIZERS"-->
                    <!--android:value="com.activeandroid.serializer.UUIDSerializer,com.activeandroid.serializer.CalendarSerializer" />-->

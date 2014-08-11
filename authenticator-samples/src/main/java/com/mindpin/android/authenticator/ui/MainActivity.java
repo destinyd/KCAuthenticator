@@ -46,7 +46,8 @@ public class MainActivity extends ListActivity {
         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         addItem(data, "Sign In", AuthenticatorSignIn.class);
         addItem(data, "Sign Out", AuthenticatorSignOut.class);
-        addItem(data, "Request", AuthenticatorRequest.class);
+        addItem(data, "request", AuthenticatorRequest.class);
+        addItem(data, "syn_request", AuthenticatorSynRequest.class);
 
         return data;
     }

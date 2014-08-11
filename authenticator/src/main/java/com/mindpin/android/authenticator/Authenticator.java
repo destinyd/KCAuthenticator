@@ -154,15 +154,53 @@ public abstract class Authenticator<M extends IUser> {
 
         @Override
         protected void onPostExecute(Boolean is_200) {
-            if (requestResult != null) {
-                if (is_200) {
-                    requestCallback.is_200(requestResult);
-                } else {
-                    requestCallback.not_200(requestResult);
-                }
+            run_request_callback(requestResult, requestCallback, is_200);
+        }
+    }
+
+    public RequestResult syn_request(HttpRequest request) {
+        IUser user = current_user();
+        if (user == null) {
+            Log.d(TAG, "syn_request user is null");
+            return null; // throw error
+        }
+        request.header("Cookie", user.strCookies);
+        //for test
+//        request.header("Cookie", user.strCookies + "1");
+
+        RequestResult requestResult = null;
+        try {
+            if (request.ok()) {
+                requestResult = new RequestResult(request.code(), request.body(), request.headers());
             } else {
-                requestCallback.error();
+                requestResult = new RequestResult(request.code(), request.body(), request.headers());
             }
+            return requestResult;
+        } catch (Exception ex) {
+            // 2.2 login failure
+            if (ex.getMessage() == null) {
+                requestResult = new RequestResult(401, "", new HashMap<String, List<String>>());
+            }
+            // 其他错误 返回
+            else {
+                // 4.1 4.2登录失败未加WWW-Authentication: "java.io.IOException: No authentication challenges found"
+                if (ex.getMessage() != null && ex.getMessage().indexOf("authentication challenge") >= 0)
+                    requestResult = new RequestResult(401, "", new HashMap<String, List<String>>());
+            }
+        }
+        Log.d(TAG, "syn_request error");
+        return requestResult;
+    }
+
+    protected void run_request_callback(RequestResult requestResult,RequestCallback requestCallback, Boolean is_200) {
+        if (requestResult != null) {
+            if (is_200) {
+                requestCallback.is_200(requestResult);
+            } else {
+                requestCallback.not_200(requestResult);
+            }
+        } else {
+            requestCallback.error();
         }
     }
 }

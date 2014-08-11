@@ -17,7 +17,7 @@ import com.mindpin.android.authenticator.core.User;
  * Created by dd on 14-6-12.
  */
 public class AuthenticatorRequest extends Activity {
-    private static final String TAG = "AuthenticatorSignOut";
+    private static final String TAG = "AuthenticatorRequest";
     MyAuthenticator myAuthenticator;
     User current_user;
     TextView tv_request;
@@ -34,6 +34,7 @@ public class AuthenticatorRequest extends Activity {
             finish();
         } else {
             tv_request = (TextView) findViewById(R.id.tv_request);
+            tv_request.setText("正在拼命的读取...");
 
             MyAuthenticator auth1 = new MyAuthenticator();
             HttpRequest request = HttpRequest.get(auth1.get_user_info_url())
