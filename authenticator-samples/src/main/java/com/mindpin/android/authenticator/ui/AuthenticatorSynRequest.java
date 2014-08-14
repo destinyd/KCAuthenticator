@@ -30,22 +30,16 @@ public class AuthenticatorSynRequest extends Activity {
 
         setContentView(R.layout.request);
         myAuthenticator = new MyAuthenticator();
-        current_user = User.current();
-        if (current_user == null) {
-            startActivity(new Intent(this, AuthenticatorSignIn.class));
-            finish();
-        } else {
-            tv_request = (TextView) findViewById(R.id.tv_request);
+        tv_request = (TextView) findViewById(R.id.tv_request);
 
-            MyAuthenticator auth1 = new MyAuthenticator();
-            //test for 500
+        MyAuthenticator auth1 = new MyAuthenticator();
+        //test for 500
 //            HttpRequest request = HttpRequest.get("http://192.168.0.8:4000")
-            HttpRequest request = HttpRequest.get(auth1.get_user_info_url())
-                    .connectTimeout(15000) //15s
-                    .readTimeout(15000) //15s
-                    .authorization("");
-            new SynRequestTask().execute(request);
-        }
+        HttpRequest request = HttpRequest.get(auth1.get_user_info_url())
+                .connectTimeout(15000) //15s
+                .readTimeout(15000) //15s
+                .authorization("");
+        new SynRequestTask().execute(request);
     }
 
     private class SynRequestTask extends AsyncTask<HttpRequest, Long, RequestResult> {
@@ -63,11 +57,10 @@ public class AuthenticatorSynRequest extends Activity {
 
         @Override
         protected void onPostExecute(RequestResult requestResult) {
-            if(requestResult == null) {
+            if (requestResult == null) {
                 tv_request.setText("error");
                 Toast.makeText(AuthenticatorSynRequest.this, "error", Toast.LENGTH_LONG).show();
-            }
-            else {
+            } else {
                 if (requestResult.status == 200) {
                     tv_request.setText(requestResult.body);
                 } else {

@@ -107,7 +107,8 @@ public abstract class Authenticator<M extends IUser> {
     public void request(HttpRequest request, RequestCallback requestCallback) {
         IUser user = current_user();
         if (user == null) {
-            Log.e(TAG, "request user is null");
+            RequestResult requestResult = new RequestResult(401, "", new HashMap<String, List<String>>());
+            run_request_callback(requestResult, requestCallback, false);
             return; // throw error
         }
         request.header("Cookie", user.strCookies);
@@ -161,8 +162,7 @@ public abstract class Authenticator<M extends IUser> {
     public RequestResult syn_request(HttpRequest request) {
         IUser user = current_user();
         if (user == null) {
-            Log.d(TAG, "syn_request user is null");
-            return null; // throw error
+            return new RequestResult(401, "", new HashMap<String, List<String>>());
         }
         request.header("Cookie", user.strCookies);
         //for test
