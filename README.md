@@ -2,6 +2,11 @@ Android KCAuthenticator
 ============================
 knowledge camp Android登录验证组件
 
+## 版本(last version)
+### 最新稳定版(release)
+0.0.5版（tag：v0.0.5）
+### 最新开发版(SNAPSHOT)
+0.0.6-SNAPSHOT版（branch：master）
 
 ## 如何引用此组件：
 ### 首先要安装ActiveAndroid
