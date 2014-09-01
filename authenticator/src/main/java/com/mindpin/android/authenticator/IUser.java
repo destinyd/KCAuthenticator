@@ -7,10 +7,12 @@ import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by dd on 14-6-13.
  */
-public abstract class IUser extends Model {
+public abstract class IUser extends Model implements Serializable {
     @Column(name = "StrCookies")
     public String strCookies;
 
