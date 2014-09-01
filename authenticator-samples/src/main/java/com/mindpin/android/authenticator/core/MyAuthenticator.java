@@ -37,6 +37,10 @@ public class MyAuthenticator extends Authenticator<User> {
         return "http://kc-alpha.4ye.me/api/nets";
     }
 
+    public String get_user_step_url() {
+        return "http://kc-alpha.4ye.me/api/learn_records.json";
+    }
+
     @Override
     public IUser current_user() {
         return User.current();

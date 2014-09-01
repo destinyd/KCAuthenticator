@@ -48,6 +48,7 @@ public class MainActivity extends ListActivity {
         addItem(data, "Sign Out", AuthenticatorSignOut.class);
         addItem(data, "request", AuthenticatorRequest.class);
         addItem(data, "syn_request", AuthenticatorSynRequest.class);
+        addItem(data, "syn_request post", AuthenticatorSynRequestPost.class);
 
         return data;
     }

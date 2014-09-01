@@ -164,7 +164,14 @@ public abstract class Authenticator<M extends IUser> {
         if (user == null) {
             return new RequestResult(401, "", new HashMap<String, List<String>>());
         }
-        request.header("Cookie", user.strCookies);
+        Log.e(TAG, "request.method():" + request.method());
+        if(request.method().equals("GET")) {
+            request.header("Cookie", user.strCookies);
+        }
+        else{
+            request.partHeader("Cookie", user.strCookies);
+        }
+
         //for test
 //        request.header("Cookie", user.strCookies + "1");
 
