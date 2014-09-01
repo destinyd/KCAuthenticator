@@ -69,3 +69,10 @@ extends IUser必须重新定义find()、current()，否则使用时会报错
 
 ### 其他
 **sign_in()** 、 **sign_out()**可能会使用到HttpRequest，请使用线程，否则4.0+会报错，具体请参考samples
+
+### 0.0.6-SNAPSHOT使用说明
+* 通过get_http_request(String url,String method)获取HttpRequest对象
+* 对HttpRequest进行操作，例如part(xxx,xxx)
+* syn_request(request)、request(request)
+
+get_http_request会赋予cookie，所以必须在request之前执行

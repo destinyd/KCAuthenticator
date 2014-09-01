@@ -6,6 +6,7 @@ import com.github.kevinsawicki.http.HttpRequest;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.github.kevinsawicki.http.HttpRequest.post;
 
@@ -111,7 +112,6 @@ public abstract class Authenticator<M extends IUser> {
             run_request_callback(requestResult, requestCallback, false);
             return; // throw error
         }
-        request.header("Cookie", user.strCookies);
         RequestParams requestParams = new RequestParams(request, requestCallback);
         new RequestTask().execute(requestParams);
     }
@@ -164,16 +164,6 @@ public abstract class Authenticator<M extends IUser> {
         if (user == null) {
             return new RequestResult(401, "", new HashMap<String, List<String>>());
         }
-        Log.e(TAG, "request.method():" + request.method());
-        if(request.method().equals("GET")) {
-            request.header("Cookie", user.strCookies);
-        }
-        else{
-            request.partHeader("Cookie", user.strCookies);
-        }
-
-        //for test
-//        request.header("Cookie", user.strCookies + "1");
 
         RequestResult requestResult = null;
         try {
@@ -208,6 +198,18 @@ public abstract class Authenticator<M extends IUser> {
             }
         } else {
             requestCallback.error();
+        }
+    }
+
+    public HttpRequest get_http_request(String url, String method){
+        HttpRequest request = new HttpRequest(url, method);
+        IUser user = current_user();
+        if (user != null) {
+            request.header("Cookie", user.strCookies);
+            return request;
+        }
+        else{
+            return null;
         }
     }
 }
