@@ -69,8 +69,10 @@ public abstract class Authenticator<M extends IUser> {
                         .readTimeout(15000) //15s
                         .part(get_login_param(), signParams.login)
                         .part(get_password_param(), signParams.password);
-                if (request.ok()) {
-                    M user = on_auth_success_build_user(request.body());
+                int code = request.code();
+                if (code == 200 || code == 201) {
+                    String body = request.body();
+                    M user = on_auth_success_build_user(body);
                     user.strCookies = request.header("Set-Cookie");
                     user.strCookies = user.strCookies.replace("; path=/", "");
                     user.strCookies = user.strCookies.replace("; HttpOnly", "");
