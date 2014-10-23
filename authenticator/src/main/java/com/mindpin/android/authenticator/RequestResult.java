@@ -16,4 +16,8 @@ public class RequestResult {
         this.body = body;
         this.headers = headers;
     }
+
+    public boolean is_ok(){
+        return status >= 200 && status < 300;
+    }
 }
