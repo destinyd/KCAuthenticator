@@ -2,6 +2,9 @@ Android KCAuthenticator
 ============================
 knowledge camp Android登录验证组件
 
+## 依赖
+maven 3.1.1 (maven < 3.2 and >= 3.1)
+
 ## 版本(last version)
 ### 最新稳定版(release)
 0.0.6版（tag：v0.0.6）
